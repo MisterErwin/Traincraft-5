@@ -39,9 +39,6 @@ public class TrackGrid {
         List<BlockPos> poses = new ArrayList<>();
 
         //Who needs matrix rotation anyways :P
-
-        //TODO: List order when using a direction different that SOUTH
-
         for (int y = 0; y < list.length; ++y) {
             boolean[][] map = list[y];
             if (flipAlongX)
@@ -105,6 +102,14 @@ public class TrackGrid {
 
     public int getBlockCount() {
         return blockCount;
+    }
+
+    public int getWidthX() {
+        return widthX;
+    }
+
+    public int getWidthZ() {
+        return widthZ;
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import si.meansoft.traincraft.blocks.*;
 import si.meansoft.traincraft.fluids.FluidBase;
 import si.meansoft.traincraft.items.ItemMaterial;
+import si.meansoft.traincraft.items.ItemTrackPlanner;
 
 /**
  * @author canitzp
@@ -23,6 +24,7 @@ public class Registry{
     public static BlockWindmill windmill;
 
     public static ItemMaterial material;
+    public static ItemTrackPlanner trackPlanner;
 
     public static FluidBase diesel, refinedFuel, oil;
 
@@ -37,6 +39,7 @@ public class Registry{
 
         //Items
         register(material = new ItemMaterial());
+        register(trackPlanner = new ItemTrackPlanner());
 
         register(diesel = new FluidBase("diesel", "fluidDiesel", Material.WATER));
         register(refinedFuel = new FluidBase("refinedFuel", "fluidRefinedFuel", Material.WATER));

@@ -212,15 +212,16 @@ public class BlockTrack extends BlockContainerBase {
 
     /**
      * The method to set the waypoints for this track. If the result is null the cart can't drive over the track.
-     * @param world The world this track is placed in
-     * @param pos The position of this block
-     * @param state The current state for this block
+     *
+     * @param world      The world this track is placed in
+     * @param pos        The position of this block
+     * @param state      The current state for this block
      * @param blockIndex
      * @return The exact coordinates packet into a TrackPoint
      */
     @Nullable
-    public TrackPoint getWaypoints(World world, BlockPos pos, IBlockState state, int blockIndex){
-        if(this.trackType.isSlope()){
+    public TrackPoint getWaypoints(World world, BlockPos pos, IBlockState state, int blockIndex) {
+        if (this.trackType.isSlope()) {
             double perBlockDiff = 1d / this.trackType.getGrid().getBlockCount();
             float start = (float) (blockIndex * perBlockDiff);
             return new TrackPoint(pos).addPoint(0, 8, start * 16, 8);
@@ -228,13 +229,14 @@ public class BlockTrack extends BlockContainerBase {
         return blockIndex == 0 ? new TrackPoint(pos).addPoint(0, 8, 1, 8) : null;
     }
 
-    public boolean canDriveOver(TileEntityTrack thisTrack, TileEntityTrack incomingTrack){
+    public boolean canDriveOver(TileEntityTrack thisTrack, TileEntityTrack incomingTrack) {
         return thisTrack.getFacing().equals(incomingTrack.getFacing()) || thisTrack.getFacing().getOpposite().equals(incomingTrack.getFacing());
     }
 
     public enum TrackTypes {
         TEST_TRACK("TestTrack", TrackGrid.getStraightSlope(16), false, true),
         TEST_CURVE("TestCurve", TrackGrid.getCurve(9), true, false),
+        TEST_CURVE_SMALL("TestCurveSmall", TrackGrid.getCurve(3), true, false),
         TEST_SLOPE("TestSlope", TrackGrid.getStraightGrid(6), false, true),
 
         STRAIGHT_SINGLE("StraightSingle", TrackGrid.getStraightGrid(1), false, false),
@@ -250,12 +252,21 @@ public class BlockTrack extends BlockContainerBase {
 
         private final boolean isCurve, isSlope;
 
-        TrackTypes(String internName, TrackGrid grid, boolean isCurve, boolean isSlope) {
+        //for the track planner
+        private final float cost;
+
+        TrackTypes(String internName, TrackGrid grid, boolean isCurve, boolean isSlope, float cost) {
             this.internName = internName;
             this.grid = grid;
             this.isCurve = isCurve;
             this.isSlope = isSlope;
+            this.cost = cost;
         }
+
+        TrackTypes(String internName, TrackGrid grid, boolean isCurve, boolean isSlope) {
+            this(internName, grid, isCurve, isSlope, grid.getBlockCount());
+        }
+
 
         TrackTypes(String internName, TrackGrid grid) {
             this(internName, grid, false, false);
@@ -280,6 +291,10 @@ public class BlockTrack extends BlockContainerBase {
 
         public boolean isSlope() {
             return isSlope;
+        }
+
+        public float getCost() {
+            return cost;
         }
     }
 }

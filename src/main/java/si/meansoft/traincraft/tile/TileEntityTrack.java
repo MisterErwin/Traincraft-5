@@ -151,7 +151,7 @@ public class TileEntityTrack extends TileEntityBase {
                 GlStateManager.disableTexture2D();
                 GlStateManager.disableBlend();
                 buffer.begin(1, DefaultVertexFormats.POSITION_COLOR);
-                for(Float[] floats : te.waypoints.getSortedCoordinates()){
+                for(Float[] floats : cachedWaypoints){
                     buffer.pos(x + (floats[0] / 16), y + (floats[1] / 16), z + (floats[2] / 16)).color(1.0F, 0.5F, 0.5F, 1F).endVertex();
                     buffer.pos(x + (floats[0] / 16), y + 1 + (floats[1] / 16), z + (floats[2] / 16)).color(1.0F, 0.5F, 0.5F, 1F).endVertex();
                 }
